@@ -2,10 +2,8 @@ package com.back.boundedContext.cash.domain;
 
 import com.back.global.jpa.entity.BaseEntity;
 import com.back.global.jpa.entity.BaseManualIdAndTime;
+import com.back.shared.cash.dto.WalletDto;
 import jakarta.persistence.*;
-
-
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,9 +16,9 @@ import static jakarta.persistence.CascadeType.REMOVE;
 @Entity
 @Table(name = "CASH_WALLET")
 @NoArgsConstructor
+@Getter
 public class Wallet extends BaseManualIdAndTime {
     @ManyToOne(fetch = FetchType.LAZY)
-    @Getter
     private CashMember holder;
 
     @Getter
@@ -32,6 +30,17 @@ public class Wallet extends BaseManualIdAndTime {
     public Wallet(CashMember holder) {
         super(holder.getId());
         this.holder = holder;
+    }
+
+    public WalletDto toDto() {
+        return new WalletDto(
+                getId(),
+                getCreateDate(),
+                getModifyDate(),
+                holder.getId(),
+                holder.getUsername(),
+                balance
+        );
     }
 
     public boolean hasBalance() {
