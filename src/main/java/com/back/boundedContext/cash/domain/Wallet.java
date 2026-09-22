@@ -20,6 +20,7 @@ import static jakarta.persistence.CascadeType.REMOVE;
 @NoArgsConstructor
 public class Wallet extends BaseManualIdAndTime {
     @ManyToOne(fetch = FetchType.LAZY)
+    @Getter
     private CashMember holder;
 
     @Getter
